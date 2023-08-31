@@ -1,7 +1,9 @@
+import org.knowm.xchart.BitmapEncoder;
 import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -12,7 +14,7 @@ public class SortingBenchmarks {
     final static ConcurrentHashMap<Integer, Long> merge_times = new ConcurrentHashMap<>();
     final static ConcurrentHashMap<Integer, Long> insertion_times = new ConcurrentHashMap<>();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // generate some random numbers
         Random random = new Random(System.currentTimeMillis());
         int[] numbers = new int[100_000];
@@ -57,6 +59,6 @@ public class SortingBenchmarks {
                 insertion_times.values().stream().mapToDouble(Long::doubleValue).toArray());
         // display chart
         new SwingWrapper<>(chart).displayChart();
-
+        BitmapEncoder.saveBitmap(chart, "src/main/resources/asymptotic", BitmapEncoder.BitmapFormat.PNG);
     }
 }
