@@ -44,8 +44,8 @@ public class SortingBenchmarks {
         }
         // create XY Chart
         XYChart chart = new XYChartBuilder()
-                .width(10_000)
-                .height(10_000)
+                .width(900)
+                .height(700)
                 .title("Asymptotic Analysis")
                 .xAxisTitle("N # of elements")
                 .yAxisTitle("Time in ms")
