@@ -15,6 +15,8 @@ public class SortingBenchmarks {
     final static ConcurrentHashMap<Integer, Long> insertion_times = new ConcurrentHashMap<>();
 
     public static void main(String[] args) throws IOException {
+        // Compute Start Time
+        long compute_start_time = System.currentTimeMillis();
         // generate some random numbers
         Random random = new Random(System.currentTimeMillis());
         int[] numbers = new int[100_000];
@@ -22,8 +24,7 @@ public class SortingBenchmarks {
             numbers[i] = random.nextInt(1, 100_000);
         }
         // declare N elements array
-        List<Integer> elements = List.of( 10_000, 20_000, 30_000, 40_000, 50_000, 60_000, 70_000,
-                80_000, 90_000, 100_000);
+        List<Integer> elements = List.of( 10_000, 50_000, 100_000, 500_000);
 
         // record merge sort times for 10, 1000, 10_000, 100_000
         for (Integer n : elements) {
@@ -44,6 +45,11 @@ public class SortingBenchmarks {
             long completion_time = end_time - start_time;
             insertion_times.put(n, completion_time);
         }
+        // Compute End Time
+        long compute_end_time = System.currentTimeMillis();
+        long compute_completion_time = compute_end_time - compute_start_time;
+        System.out.printf("Compute completion time: %dms", compute_completion_time);
+
         // create XY Chart
         XYChart chart = new XYChartBuilder()
                 .width(900)
