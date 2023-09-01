@@ -15,8 +15,6 @@ public class SortingBenchmarks {
     final static ConcurrentHashMap<Integer, Long> insertion_times = new ConcurrentHashMap<>();
 
     public static void main(String[] args) throws IOException {
-        // Compute Start Time
-        long compute_start_time = System.currentTimeMillis();
         // generate some random numbers
         Random random = new Random(System.currentTimeMillis());
         int[] numbers = new int[100_000];
@@ -24,8 +22,9 @@ public class SortingBenchmarks {
             numbers[i] = random.nextInt(1, 100_000);
         }
         // declare N elements array
-        List<Integer> elements = List.of( 10_000, 50_000, 100_000, 500_000);
-
+        List<Integer> elements = List.of(50_000, 100_000, 500_000, 1_000_000);
+        // Compute Start Time
+        long compute_start_time = System.currentTimeMillis();
         // record merge sort times for 10, 1000, 10_000, 100_000
         for (Integer n : elements) {
             // pull numbers
