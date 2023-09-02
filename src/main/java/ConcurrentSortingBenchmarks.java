@@ -90,9 +90,9 @@ public class ConcurrentSortingBenchmarks {
                 .yAxisTitle("Time in ms")
                 .build();
         // add series to chart
-        chart.addSeries("Merge Sort", Collections.list(merge_times.keys()).stream().mapToDouble(Integer::doubleValue).toArray(),
+        chart.addSeries("Merge Sort O(n lg n)", Collections.list(merge_times.keys()).stream().mapToDouble(Integer::doubleValue).toArray(),
                 merge_times.values().stream().mapToDouble(Long::doubleValue).toArray());
-        chart.addSeries("Insertion Sort", Collections.list(insertion_times.keys()).stream().mapToDouble(Integer::doubleValue).toArray(),
+        chart.addSeries("Insertion Sort O(n^2)", Collections.list(insertion_times.keys()).stream().mapToDouble(Integer::doubleValue).toArray(),
                 insertion_times.values().stream().mapToDouble(Long::doubleValue).toArray());
         // display chart
         new SwingWrapper<>(chart).displayChart();
