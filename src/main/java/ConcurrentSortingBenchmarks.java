@@ -48,12 +48,11 @@ public class ConcurrentSortingBenchmarks {
         }
         // declare N elements array
         List<Integer> elements = List.of(10_000, 20_000, 30_000, 40_000, 50_000, 60_000, 70_000, 80_000, 90_000, 100_000);
-        // executor service
         // Compute Start Time
         long compute_start_time = System.currentTimeMillis();
+        // executor service. try-with resources to automate closing of executor service.
         try (ExecutorService executor = Executors.newWorkStealingPool()) {
-//            System.out.printf("Running on %d threads\n", processors);
-            // record merge sort times for 10, 1000, 10_000, 100_000
+           // Added both types of sorting to a composite task list
             List<Callable<ResultPair>> composite_sorts = new ArrayList<>();
             for (Integer n : elements) {
                 // copy slice of array containing elements to be sorted
@@ -90,9 +89,13 @@ public class ConcurrentSortingBenchmarks {
                 .yAxisTitle("Time in ms")
                 .build();
         // add series to chart
-        chart.addSeries("Merge Sort O(n lg n)", Collections.list(merge_times.keys()).stream().mapToDouble(Integer::doubleValue).toArray(),
+        chart.addSeries("Merge Sort O(n lg n)", Collections.list(merge_times.keys())
+                        .stream()
+                        .mapToDouble(Integer::doubleValue).toArray(),
                 merge_times.values().stream().mapToDouble(Long::doubleValue).toArray());
-        chart.addSeries("Insertion Sort O(n^2)", Collections.list(insertion_times.keys()).stream().mapToDouble(Integer::doubleValue).toArray(),
+        chart.addSeries("Insertion Sort O(n^2)", Collections.list(insertion_times.keys())
+                        .stream()
+                        .mapToDouble(Integer::doubleValue).toArray(),
                 insertion_times.values().stream().mapToDouble(Long::doubleValue).toArray());
         // display chart
         new SwingWrapper<>(chart).displayChart();
