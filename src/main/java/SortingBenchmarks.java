@@ -22,7 +22,7 @@ public class SortingBenchmarks {
             numbers[i] = random.nextInt(1, 100_000);
         }
         // declare N elements array
-        List<Integer> elements = List.of(50_000, 100_000, 500_000, 1_000_000);
+        List<Integer> elements = List.of(10_000, 20_000, 30_000, 40_000, 50_000, 60_000, 70_000, 80_000, 90_000, 100_000);
         // Compute Start Time
         long compute_start_time = System.currentTimeMillis();
         // record merge sort times for 10, 1000, 10_000, 100_000
