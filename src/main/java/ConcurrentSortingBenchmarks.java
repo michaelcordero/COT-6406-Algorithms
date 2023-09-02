@@ -39,6 +39,18 @@ public class ConcurrentSortingBenchmarks {
         return new ResultPair(slice.length, completion_time, type);
     }
 
+    private static List<Callable<ResultPair>> getCompositeSorts(List<Integer> elements, int[] numbers) {
+        List<Callable<ResultPair>> composite_sorts = new ArrayList<>();
+        for (Integer n : elements) {
+            // copy slice of array containing elements to be sorted
+            int[] m_slice = Arrays.copyOfRange(numbers, 0, n);
+            int[] i_slice = Arrays.copyOfRange(numbers, 0, n);
+            composite_sorts.add(() -> computeSortTime(m_slice, SortType.MERGE));
+            composite_sorts.add(() -> computeSortTime(i_slice, SortType.INSERTION));
+        }
+        return composite_sorts;
+    }
+
     public static void main(String[] args) throws IOException {
         // generate some random numbers
         Random random = new Random(System.currentTimeMillis());
@@ -53,15 +65,7 @@ public class ConcurrentSortingBenchmarks {
         // executor service. try-with resources to automate closing of executor service.
         try (ExecutorService executor = Executors.newWorkStealingPool()) {
            // Added both types of sorting to a composite task list
-            List<Callable<ResultPair>> composite_sorts = new ArrayList<>();
-            for (Integer n : elements) {
-                // copy slice of array containing elements to be sorted
-                int[] m_slice = Arrays.copyOfRange(numbers, 0, n);
-                int[] i_slice = Arrays.copyOfRange(numbers, 0, n);
-                composite_sorts.add(() -> computeSortTime(m_slice, SortType.MERGE));
-                composite_sorts.add(() -> computeSortTime(i_slice, SortType.INSERTION));
-            }
-
+            List<Callable<ResultPair>> composite_sorts = getCompositeSorts(elements, numbers);
             try {
                 List<Future<ResultPair>> composite_futures = executor.invokeAll(composite_sorts);
                 for (Future<ResultPair> f : composite_futures) {
@@ -83,7 +87,7 @@ public class ConcurrentSortingBenchmarks {
         // create XY Chart
         XYChart chart = new XYChartBuilder()
                 .width(1000)
-                .height(800)
+                .height(1200)
                 .title("Asymptotic Analysis")
                 .xAxisTitle("N # of elements")
                 .yAxisTitle("Time in ms")
