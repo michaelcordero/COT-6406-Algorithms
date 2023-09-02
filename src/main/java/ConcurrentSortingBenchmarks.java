@@ -6,9 +6,12 @@ import org.knowm.xchart.XYChartBuilder;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ConcurrentSortingBenchmarks {
 
+    static Logger LOG = Logger.getLogger(ConcurrentSortingBenchmarks.class.getName());
     final static ConcurrentHashMap<Integer, Long> merge_times = new ConcurrentHashMap<>();
     final static ConcurrentHashMap<Integer, Long> insertion_times = new ConcurrentHashMap<>();
 
@@ -76,7 +79,8 @@ public class ConcurrentSortingBenchmarks {
                     }
                 }
             } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
+                LOG.log(Level.SEVERE, e.getCause().toString());
+                System.exit(-1);
             }
         }
         // Compute End Time
