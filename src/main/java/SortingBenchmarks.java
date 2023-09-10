@@ -4,15 +4,12 @@ import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class SortingBenchmarks {
-    final static ConcurrentHashMap<Integer, Long> merge_times = new ConcurrentHashMap<>();
-    final static ConcurrentHashMap<Integer, Long> insertion_times = new ConcurrentHashMap<>();
+    final static Map<Integer, Long> merge_times = new ConcurrentHashMap<>();
+    final static Map<Integer, Long> insertion_times = new ConcurrentHashMap<>();
 
     public static void main(String[] args) throws IOException {
         // generate some random numbers
@@ -58,9 +55,9 @@ public class SortingBenchmarks {
                 .yAxisTitle("Time in ms")
                 .build();
         // add series to chart
-        chart.addSeries("Merge Sort O(n lg n)", Collections.list(merge_times.keys()).stream().mapToDouble(Integer::doubleValue).toArray(),
+        chart.addSeries("Merge Sort O(n lg n)", merge_times.keySet().stream().mapToDouble(Integer::doubleValue).toArray(),
                 merge_times.values().stream().mapToDouble(Long::doubleValue).toArray());
-        chart.addSeries("Insertion Sort O(n^2)", Collections.list(insertion_times.keys()).stream().mapToDouble(Integer::doubleValue).toArray(),
+        chart.addSeries("Insertion Sort O(n^2)", insertion_times.keySet().stream().mapToDouble(Integer::doubleValue).toArray(),
                 insertion_times.values().stream().mapToDouble(Long::doubleValue).toArray());
         // display chart
         new SwingWrapper<>(chart).displayChart();
