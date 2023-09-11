@@ -31,21 +31,15 @@ public class TestBinarySearchTree {
     @Test
     public void test_iyengar() {
         BinarySearchTree<Integer,Integer> tree = new BinarySearchTree<>();
-        // add left and right children
-        tree.put(5,5);
-        tree.put(6,6);
-        tree.put(4,4);
-        tree.put(7,7);
-        tree.put(3, 3);
-        tree.put(8, 8);
-        tree.put(2, 2);
-        tree.put(1,1);
-        tree.put(9, 9);
-        tree.put(0, 0);
-        tree.put(10, 10);
-        // tree.put(11, 11);
-        tree.iyengar();
-        tree.values().stream().forEach(System.out::println);
-        System.out.println("hello");
+        // create unbalanced tree
+        for (int i = 0; i < 12; i++) {
+            System.out.printf("putting: %d -> ", i);
+            tree.put(i,i);
+        }
+        System.out.println();
+        tree.chang_iyengar();
+        tree.nodeHeight();
+        // tree.values().forEach(System.out::println);
+        assert tree.isBalanced();
     }
 }

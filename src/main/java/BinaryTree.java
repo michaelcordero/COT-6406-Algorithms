@@ -75,7 +75,7 @@ public interface BinaryTree<K, V> extends Map<K, V> {
     //////////////////////////////////////////////
     // COT-6406 method
     //////////////////////////////////////////////
-    void iyengar();
+    void chang_iyengar();
     void traverse_bind(BinaryTreeNode<K,V> root, List<BinaryTreeNode<K,V>> link, AtomicInteger node_count);
     void grow(AtomicInteger low, AtomicInteger high, List<BinaryTreeNode<K,V>> link, AtomicInteger m, AtomicReference<BinaryTreeNode<K, V>> ansl, AtomicReference<BinaryTreeNode<K,V>> ansr);
 }

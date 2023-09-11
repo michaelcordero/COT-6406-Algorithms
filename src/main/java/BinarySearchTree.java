@@ -669,25 +669,30 @@ public class BinarySearchTree<K extends Comparable<K>,V> implements BinaryTree<K
     }
 
     @Override
-    public void iyengar() {
-        // if n <= 2 return
-        AtomicReference<BinaryTreeNode<K,V>> ansl = new AtomicReference<>(new BinarySearchTreeNode<>());
-        AtomicReference<BinaryTreeNode<K,V>> ansr = new AtomicReference<>(new BinarySearchTreeNode<>());
+    public void chang_iyengar() {
+        AtomicReference<BinaryTreeNode<K, V>> ansl = new AtomicReference<>(new BinarySearchTreeNode<>());
+        AtomicReference<BinaryTreeNode<K, V>> ansr = new AtomicReference<>(new BinarySearchTreeNode<>());
         AtomicInteger node_count = new AtomicInteger(0);
-        List<BinaryTreeNode<K,V>> link = new ArrayList<>();
+        List<BinaryTreeNode<K, V>> link = new ArrayList<>();
         traverse_bind(this.root, link, node_count);
+        // guard rail
+        if (node_count.get() <= 2) return;
         AtomicInteger m = new AtomicInteger((int) Math.floor((double) (node_count.get() + 1) / 2)); // folding value
         root = link.get(m.get()); // new root
-        if(node_count.get() == 2 * m.get()) {
+        if (node_count.get() % 2 == 0) {
             // node_count is even
-            m.getAndIncrement(); // adjust folding value
-            grow(new AtomicInteger(0), new AtomicInteger(m.get() - 2), link, m, ansl, ansr);
+            System.out.println("N is even.");
+            m.set(m.get() + 1);
+            grow(new AtomicInteger(0), new AtomicInteger(m.get() - 2),
+                    link, m, ansl, ansr);
             link.get(m.get()).setLeft(null);
             link.get(m.get()).setRight(null);
-            link.get(m.get()+1).setLeft(link.get(m.get()));
+            link.get(m.get() + 1).setLeft(link.get(m.get()));
         } else {
             // node_count is odd
-            grow(new AtomicInteger(0), new AtomicInteger(m.get() - 1), link, new AtomicInteger(m.get() - 1), ansl, ansr);
+            System.out.println("N is odd.");
+            grow(new AtomicInteger(0), new AtomicInteger(m.get() - 1),
+                    link, new AtomicInteger(m.get() - 1), ansl, ansr);
         }
         root.setLeft(ansl.get());
         root.setRight(ansr.get());
@@ -695,31 +700,30 @@ public class BinarySearchTree<K extends Comparable<K>,V> implements BinaryTree<K
 
     @Override
     public void traverse_bind(BinaryTreeNode<K, V> ptr, List<BinaryTreeNode<K, V>> link, AtomicInteger node_count) {
-        if(ptr == null) return;
+        if (ptr == null) return;
         traverse_bind(ptr.left(), link, node_count);
         link.add(node_count.getAndIncrement(), ptr);
         traverse_bind(ptr.right(), link, node_count);
     }
 
     @Override
-    public void grow(AtomicInteger low, AtomicInteger high, List<BinaryTreeNode<K,V>> link, AtomicInteger m, AtomicReference<BinaryTreeNode<K, V>> ansl, AtomicReference<BinaryTreeNode<K,V>> ansr) {
+    public void grow(AtomicInteger low, AtomicInteger high, List<BinaryTreeNode<K, V>> link, AtomicInteger m,
+                     AtomicReference<BinaryTreeNode<K, V>> ansl, AtomicReference<BinaryTreeNode<K, V>> ansr) {
         AtomicInteger mid = new AtomicInteger(0);
-        BinaryTreeNode<K,V> tl;
-        BinaryTreeNode<K,V> tr;
-        if(low.get() > high.get()) {
+        BinaryTreeNode<K, V> tl;
+        BinaryTreeNode<K, V> tr;
+        if (low.get() > high.get()) {
             ansl.set(null);
             ansr.set(null);
         } else if (low.get() == high.get()) {
             try {
                 ansl.set(link.get(low.get()));
             } catch (IndexOutOfBoundsException e) {
-                // do nothing!
                 ansl.set(null);
             }
             try {
-                ansr.set(link.get(low.get()+m.get()));
+                ansr.set(link.get(low.get() + m.get()));
             } catch (IndexOutOfBoundsException e) {
-                // do nothing!
                 ansr.set(null);
             }
             if (ansl.get() != null) {
@@ -731,10 +735,10 @@ public class BinarySearchTree<K extends Comparable<K>,V> implements BinaryTree<K
                 ansr.get().setRight(null);
             }
         } else {
-            mid.set((int)  Math.floor(  (double) (low.get() + high.get()) / 2));
+            mid.set((int) Math.floor((double) (low.get() + high.get()) / 2));
             tl = link.get(mid.get());
-            tr = link.get(mid.get()+m.get());
-            grow(low,new AtomicInteger(mid.get() - 1), link, m, ansl, ansr);  // forms left subtree
+            tr = link.get(mid.get() + m.get());
+            grow(low, new AtomicInteger(mid.get() - 1), link, m, ansl, ansr);  // forms left subtree
             tl.setLeft(ansl.get());
             tr.setLeft(ansr.get());
             grow(new AtomicInteger(mid.get() + 1), high, link, m, ansl, ansr);  // forms right subtree
