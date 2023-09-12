@@ -32,7 +32,7 @@ public class TestBinarySearchTree {
     public void test_iyengar() {
         BinarySearchTree<Integer,Integer> tree = new BinarySearchTree<>();
         // create unbalanced tree
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < 14; i++) {
             System.out.printf("putting: %d -> ", i);
             tree.put(i,i);
         }

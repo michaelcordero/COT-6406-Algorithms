@@ -688,6 +688,7 @@ public class BinarySearchTree<K extends Comparable<K>,V> implements BinaryTree<K
             link.get(m.get()).setLeft(null);
             link.get(m.get()).setRight(null);
             link.get(m.get() + 1).setLeft(link.get(m.get()));
+            ansr.get().setLeft(link.get(m.get()+1));  // added code
         } else {
             // node_count is odd
             System.out.println("N is odd.");
