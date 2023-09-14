@@ -265,12 +265,10 @@ public class BinarySearchTree<K extends Comparable<K>,V> implements BinaryTree<K
      * order of node value, all the nodes in a BST whose values, v lie in the range l < v < w . Use recursion and avoid
      * entering any subtrees that can't contain any elements in the desired range. You must also write a test program
      * that builds a BST and tests your method (see below).
-     *
      * Requirement #1: elements to be printed must fall within the range. l < v < w.
      * Requirement #2: output elements in ascending order.
      * Requirement #3: use recursion.
      * Requirement #4: avoid entering subtrees that can't contain elements in the desired range.
-     *
      * Solution #1: Range check before an item is printed.
      * Solution #2: Inorder traversal satisfies the ascending order requirement.
      * Solution #3: This inner method accepts a BinaryTreeNode as an argument, with each successive call,
@@ -488,7 +486,7 @@ public class BinarySearchTree<K extends Comparable<K>,V> implements BinaryTree<K
     @Override
     public Set<Entry<K, V>> entrySet() {
         Set<Entry<K,V>> entries = new HashSet<>();
-        traverser(TraversalType.INORDER, (node) -> entries.add(new Map.Entry<K, V>() {
+        traverser(TraversalType.INORDER, (node) -> entries.add(new Map.Entry<>() {
             @Override
             public K getKey() {
                 return node.getKey();
