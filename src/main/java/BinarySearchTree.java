@@ -678,15 +678,12 @@ public class BinarySearchTree<K extends Comparable<K>,V> implements BinaryTree<K
         if (node_count.get() % 2 == 0) {
             // node_count is even
             System.out.println("N is even.");
-            AtomicInteger m = new AtomicInteger((int) Math.floor((double) (node_count.get() + 1) / 2)); // folding value
+            AtomicInteger m = new AtomicInteger((int) Math.floor((double) (node_count.get()) / 2)); // folding value
             root = link.get(m.get()); // new root
-            m.set(m.get() + 1);
-            grow(new AtomicInteger(0), new AtomicInteger(m.get() - 2),
-                    link, m, ansl, ansr);
-            link.get(m.get()).setLeft(null);
-            link.get(m.get()).setRight(null);
-            link.get(m.get() + 1).setLeft(link.get(m.get()));
-            ansr.get().setLeft(link.get(m.get()+1));  // pruning solution code
+            root.setLeft(null);
+            root.setRight(null);
+            grow(new AtomicInteger(0), new AtomicInteger(m.get() - 1),
+                    link, new AtomicInteger(m.get() + 1), ansl, ansr);
         } else {
             // node_count is odd
             AtomicInteger m = new AtomicInteger((int) Math.floor((double) (node_count.get()) / 2)); // folding value
@@ -694,7 +691,7 @@ public class BinarySearchTree<K extends Comparable<K>,V> implements BinaryTree<K
             root.setLeft(null);
             root.setRight(null);
             System.out.println("N is odd.");
-            grow(new AtomicInteger(0), new AtomicInteger(m.get() -1),
+            grow(new AtomicInteger(0), new AtomicInteger(m.get() - 1),
                     link, new AtomicInteger(m.get() + 1), ansl, ansr);   // +1 is solution code
             System.out.println("Need a breakpoint");
         }
