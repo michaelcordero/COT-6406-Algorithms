@@ -675,11 +675,6 @@ public class BinarySearchTree<K extends Comparable<K>,V> implements BinaryTree<K
         traverse_bind(this.root, link, node_count);
         // guard rail
         if (node_count.get() <= 2) return;
-        if (node_count.get() % 2 == 0) {
-            System.out.println("N is even.");
-        } else {
-            System.out.println("N is odd");
-        }
         AtomicInteger m = new AtomicInteger((int) Math.floor((double) (node_count.get()) / 2)); // folding value
         root = link.get(m.get()); // new root
         grow(new AtomicInteger(0), new AtomicInteger(m.get() - 1),
